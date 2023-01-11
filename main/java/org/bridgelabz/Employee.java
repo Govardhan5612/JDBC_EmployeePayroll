@@ -2,31 +2,42 @@ package org.bridgelabz;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
 
 /**
  * @author Govardhan reddy
  */
 public class Employee {
     /**
-     * create a connection between SQL to java server
+     * in this class perform CURD operations on payroll service database
      */
+    static Scanner input = new Scanner(System.in);
     static String jdbc = "jdbc:mysql://localhost:3306/payroll_service";
     static String userName = "root";
     static String password = "Muni@5612";
-    static Connection connection;
 
-    public static void main(String[] args) {
+    public static void edit() {
         /**
-         * if path address is correct try block is work
-         * else catch block is work
+         * In this method edit the terisa basic pay details
          */
         try {
-            connection = DriverManager.getConnection(jdbc, userName, password);
-            System.out.println("JDBC is successful");
+            Connection connection = DriverManager.getConnection(jdbc, userName, password);
+            PreparedStatement prepare = connection.prepareStatement("update employee_payroll set BasicPay = ? where Employee_id = ?;");
+            System.out.print("Enter id number : ");
+            String id = input.next();
+            System.out.print("Enter basic pay : ");
+            int name = input.nextInt();
+            prepare.setInt(1, name);
+            prepare.setString(2, id);
+            prepare.executeLargeUpdate();
         } catch (Exception exception) {
             exception.printStackTrace();
-            System.out.println("JDBC is not successful");
-
         }
     }
+
+    public static void main(String[] args) {
+        edit();
+    }
+
 }
