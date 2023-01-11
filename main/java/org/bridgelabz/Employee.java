@@ -91,8 +91,27 @@ public class Employee {
         }
     }
 
+    public static void salaryDetails() {
+        /**
+         * In this method read the of employee payroll service database print the salary details
+         */
+        int salary = 0;
+        try {
+            Connection connection = DriverManager.getConnection(jdbc, userName, password);
+            String query = "select count(basicPay) from employee_payroll where gender = 'f'";
+            PreparedStatement prepare = connection.prepareStatement(query);
+            ResultSet result = prepare.executeQuery();
+            while (result.next()) {
+                 salary = result.getInt(1);
+            }
+            System.out.println("Sum of column = " + salary);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        dateInRange();
+        salaryDetails();
     }
 
 }
